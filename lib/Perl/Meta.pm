@@ -86,6 +86,7 @@ sub _extract_license {
 		'Q Public License'                   => 'open_source',  1,
 		'OpenSSL License'                    => 'unrestricted', 1,
 		'SSLeay License'                     => 'unrestricted', 1,
+		'The beer-?ware license'             => 'unrestricted', 1,
 		'zlib License'                       => 'open_source',  1,
 		'proprietary'                        => 'proprietary',  0,
 	);
