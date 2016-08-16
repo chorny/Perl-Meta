@@ -4,6 +4,17 @@ use strict;
 use ExtUtils::MakeMaker;
 
 WriteMakefile1(
+    META_MERGE => {
+        'meta-spec' => { version => 2 },
+        resources => {
+            repository => {
+                type => 'git',
+                url => 'git://github.com/chorny/Perl-Meta.git',
+                web => 'https://github.com/chorny/Perl-Meta',
+            },
+            bugtracker => { 'web' => 'http://rt.cpan.org/NoAuth/Bugs.html?Dist=Perl-Meta' },
+        },
+    },
     NAME                => 'Perl::Meta',
     AUTHOR              => q{Alexandr Ciornii <alexchorny@gmail.com>},
     VERSION_FROM        => 'lib/Perl/Meta.pm',
@@ -13,12 +24,7 @@ WriteMakefile1(
     PREREQ_PM => {
     },
     MIN_PERL_VERSION => '5.005',
-    META_MERGE => {
-        resources => {
-            repository => 'http://svn.ali.as/cpan/trunk/Perl-Meta',
-        },
-    },
-    BUILD_REQUIRES => {
+    TEST_REQUIRES => {
         'Test::More' => 0,
     },
     clean               => { FILES => 'Perl-Meta-*' },
@@ -30,7 +36,8 @@ WriteMakefile1(
     ) : (),
 );
 
-sub WriteMakefile1 {  #Written by Alexandr Ciornii, version 0.23. Added by eumm-upgrade.
+
+sub WriteMakefile1 {  #Compatibility code for old versions of EU::MM. Written by Alexandr Ciornii, version 2. Added by eumm-upgrade.
     my %params=@_;
     my $eumm_version=$ExtUtils::MakeMaker::VERSION;
     $eumm_version=eval $eumm_version;
@@ -39,6 +46,10 @@ sub WriteMakefile1 {  #Written by Alexandr Ciornii, version 0.23. Added by eumm-
     if ($params{AUTHOR} and ref($params{AUTHOR}) eq 'ARRAY' and $eumm_version < 6.5705) {
         $params{META_ADD}->{author}=$params{AUTHOR};
         $params{AUTHOR}=join(', ',@{$params{AUTHOR}});
+    }
+    if ($params{TEST_REQUIRES} and $eumm_version < 6.64) {
+        $params{BUILD_REQUIRES}={ %{$params{BUILD_REQUIRES} || {}} , %{$params{TEST_REQUIRES}} };
+        delete $params{TEST_REQUIRES};
     }
     if ($params{BUILD_REQUIRES} and $eumm_version < 6.5503) {
         #EUMM 6.5502 has problems with BUILD_REQUIRES
@@ -50,9 +61,6 @@ sub WriteMakefile1 {  #Written by Alexandr Ciornii, version 0.23. Added by eumm-
     delete $params{META_MERGE} if $eumm_version < 6.46;
     delete $params{META_ADD} if $eumm_version < 6.46;
     delete $params{LICENSE} if $eumm_version < 6.31;
-    delete $params{AUTHOR} if $] < 5.005;
-    delete $params{ABSTRACT_FROM} if $] < 5.005;
-    delete $params{BINARY_LOCATION} if $] < 5.005;
 
     WriteMakefile(%params);
 }
