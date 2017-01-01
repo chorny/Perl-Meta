@@ -10,12 +10,12 @@ Perl::Meta - Extract metadata from perl/pod text.
 
 =head1 VERSION
 
-Version 0.02
+Version 0.03
 
 =cut
 
 use vars '$VERSION';
-$VERSION = '0.02';
+$VERSION = '0.03';
 
 
 =head1 SYNOPSIS
@@ -179,7 +179,7 @@ L<http://search.cpan.org/dist/Perl-Meta/>
 
 =head1 LICENSE AND COPYRIGHT
 
-Copyright 2010-2011 Alexandr Ciornii.
+Copyright 2010 - 2017 Alexandr Ciornii.
 Copyright 2002 - 2011 Brian Ingerson, Audrey Tang and Adam Kennedy.
 
 This program is free software; you can redistribute it and/or modify it
